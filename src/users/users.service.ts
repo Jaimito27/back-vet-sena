@@ -11,10 +11,13 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  createUser(createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create();
-    this.userRepository.save(newUser)
+  async createUser(user: CreateUserDto) {
+
+      const newUser = this.userRepository.create(user);
+    return this.userRepository.save(newUser);
+    
   }
+
 
   findAll() {
     return `Hola mundo`;
