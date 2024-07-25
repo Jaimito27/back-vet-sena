@@ -9,7 +9,7 @@ export class User {
     @Column()
     doc_type: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, unique: true})
     ident_document: string;
 
     @Column({nullable: false})
