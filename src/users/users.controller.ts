@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,23 +18,28 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): Promise <User> {
+  createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.createUser(createUserDto);
   }
 
   @Get()
-  getUsers(): Promise <User[]> {
+  getUsers(): Promise<User[]> {
     return this.usersService.getUsers();
   }
 
   @Get(':ident_document')
-  getOnlyUser(@Param('ident_document', ParseIntPipe) ident_document: number): Promise <User> {
+  getOnlyUser(
+    @Param('ident_document', ParseIntPipe) ident_document: number,
+  ): Promise<User> {
     return this.usersService.getOnlyUser(+ident_document);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto){
-    return await this.usersService.update(+id, updateUserDto);
+  async updateUser(
+    @Param('ident_document', ParseIntPipe) ident_document: number,
+    @Body() user: UpdateUserDto,
+  ) {
+    return await this.usersService.updateUser(+ident_document, user);
   }
 
   @Delete(':ident_document')

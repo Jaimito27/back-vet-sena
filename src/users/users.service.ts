@@ -30,7 +30,7 @@ export class UsersService {
   }
 
   async updateUser(ident_document: number, user: UpdateUserDto) {
-    return `This action updates a #${ident_document} user`;
+    return await this.userRepository.update({ident_document}, user);
   }
 
   async removeUser(ident_document: number) {
