@@ -21,7 +21,7 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  async getOnlyUser(ident_document: number) {
+  async getOnlyUser(ident_document: string) {
     return await this.userRepository.findOne({
       where: {
         ident_document
@@ -29,11 +29,11 @@ export class UsersService {
     });
   }
 
-  async updateUser(ident_document: number, user: UpdateUserDto) {
+  async updateUser(ident_document: string, user: UpdateUserDto) {
     return await this.userRepository.update({ident_document}, user);
   }
 
-  async removeUser(ident_document: number) {
+  async removeUser(ident_document: string) {
     return await this.userRepository.delete({ident_document});
   }
 }

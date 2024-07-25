@@ -29,21 +29,21 @@ export class UsersController {
 
   @Get(':ident_document')
   getOnlyUser(
-    @Param('ident_document', ParseIntPipe) ident_document: number,
+    @Param('ident_document') ident_document: string,
   ): Promise<User> {
-    return this.usersService.getOnlyUser(+ident_document);
+    return this.usersService.getOnlyUser(ident_document);
   }
 
   @Patch(':id')
   async updateUser(
-    @Param('ident_document', ParseIntPipe) ident_document: number,
+    @Param('ident_document') ident_document: string,
     @Body() user: UpdateUserDto,
   ) {
-    return await this.usersService.updateUser(+ident_document, user);
+    return await this.usersService.updateUser(ident_document, user);
   }
 
   @Delete(':ident_document')
-  removeUser(@Param('ident_document', ParseIntPipe) ident_document: number) {
-    return this.usersService.removeUser(+ident_document);
+  removeUser(@Param('ident_document') ident_document: string) {
+    return this.usersService.removeUser(ident_document);
   }
 }

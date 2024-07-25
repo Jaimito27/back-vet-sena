@@ -8,7 +8,7 @@ export class UpdateUserDto  {
   @IsNumber()
   @IsNotEmpty()
   @IsOptional()
-  ident_document?: number;
+  ident_document?: string;
   @IsString()
   @IsOptional()
   names?: string;

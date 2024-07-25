@@ -10,7 +10,7 @@ export class User {
     doc_type: string;
 
     @Column({nullable: false})
-    ident_document: number;
+    ident_document: string;
 
     @Column({nullable: false})
     names: string;
