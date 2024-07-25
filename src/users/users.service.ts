@@ -64,7 +64,20 @@ export class UsersService {
   }
 
   async updateUser(ident_document: string, user: UpdateUserDto) {
-    return await this.userRepository.update({ ident_document }, user);
+
+
+    const userFound = await this.userRepository.findOne({
+      where: {
+        ident_document
+      }
+    })
+
+    if(!userFound){
+      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
+    }
+
+    const updateUser = Object.assign(userFound, user) //une la info tanto de los datos que existian como lo que se está ingresando
+    return await this.userRepository.save(updateUser);
   }
 
   async removeUser(ident_document: string) {
