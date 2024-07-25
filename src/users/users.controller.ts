@@ -30,7 +30,7 @@ export class UsersController {
   @Get(':ident_document')
   getOnlyUser(
     @Param('ident_document') ident_document: string,
-  ): Promise<User> {
+  ) {
 
     return this.usersService.getOnlyUser(ident_document);
   }

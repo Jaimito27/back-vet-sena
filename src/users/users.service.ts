@@ -14,28 +14,35 @@ export class UsersService {
   async createUser(user: CreateUserDto) {
     const userFound = await this.userRepository.findOne({
       where: [
-        {ident_document: user.ident_document},
-        {username: user.username},
-        {email: user.email}
-
+        { ident_document: user.ident_document },
+        { username: user.username },
+        { email: user.email },
       ],
     });
 
-    if(userFound){
-      if(userFound.ident_document === user.ident_document){
-        return new HttpException('Ya existe un usuario con esté numero de identificación', HttpStatus.CONFLICT)
+    if (userFound) {
+      if (userFound.ident_document === user.ident_document) {
+        return new HttpException(
+          'Ya existe un usuario con esté numero de identificación',
+          HttpStatus.CONFLICT,
+        );
       }
-      if(userFound.username === user.username){
-        return new HttpException('Ya existe un usuario con este nombre de usuario', HttpStatus.CONFLICT)
+      if (userFound.username === user.username) {
+        return new HttpException(
+          'Ya existe un usuario con este nombre de usuario',
+          HttpStatus.CONFLICT,
+        );
       }
-      if(userFound.email === user.email){
-        return new HttpException('Ya exuste un usuario con este correo', HttpStatus.CONFLICT)
+      if (userFound.email === user.email) {
+        return new HttpException(
+          'Ya exuste un usuario con este correo',
+          HttpStatus.CONFLICT,
+        );
       }
     }
 
-
     const newUser = this.userRepository.create(user);
-    return this.userRepository.save(newUser);
+    return await this.userRepository.save(newUser);
   }
 
   async getUsers() {
@@ -43,11 +50,17 @@ export class UsersService {
   }
 
   async getOnlyUser(ident_document: string) {
-    return await this.userRepository.findOne({
+    const userFound =  await this.userRepository.findOne({
       where: {
         ident_document,
       },
     });
+
+    if(!userFound){
+      return new HttpException('El usuario no existe', HttpStatus.NOT_FOUND)
+    }
+
+    return userFound;
   }
 
   async updateUser(ident_document: string, user: UpdateUserDto) {
