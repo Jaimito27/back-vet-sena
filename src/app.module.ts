@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PetsModule } from './pets/pets.module';
 
 @Module({
   imports: [
@@ -21,6 +22,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       // migrations: [__dirname + '/../db/migrations/*{.ts,.js}'],
       // migrationsTableName: 'migrations',
     }),
+
+    PetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
