@@ -31,10 +31,11 @@ export class UsersController {
   getOnlyUser(
     @Param('ident_document') ident_document: string,
   ): Promise<User> {
+
     return this.usersService.getOnlyUser(ident_document);
   }
 
-  @Patch(':id')
+  @Patch(':ident_document')
   async updateUser(
     @Param('ident_document') ident_document: string,
     @Body() user: UpdateUserDto,

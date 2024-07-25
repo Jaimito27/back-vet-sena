@@ -5,7 +5,6 @@ export class UpdateUserDto  {
   @IsString()
   @IsOptional()
   doc_type?: string;
-  @IsNumber()
   @IsNotEmpty()
   @IsOptional()
   ident_document?: string;

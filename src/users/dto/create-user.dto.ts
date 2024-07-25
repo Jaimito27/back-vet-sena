@@ -10,7 +10,6 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   doc_type: string;
-  @IsNumber()
   @MinLength(4)
   @IsNotEmpty()
   ident_document: string;
