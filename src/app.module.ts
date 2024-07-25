@@ -4,9 +4,9 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-
 @Module({
-  imports: [UsersModule,
+  imports: [
+    UsersModule,
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -15,11 +15,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'root',
       password: '123456789',
       database: 'vet_db',
-      autoLoadEntities: true,
-      //entities: [__dirname + '/**/*.entity{.ts,.js}'],
+   
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-
-    })
+      // migrations: [__dirname + '/../db/migrations/*{.ts,.js}'],
+      // migrationsTableName: 'migrations',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
