@@ -19,17 +19,17 @@ export class UsersController {
   }
 
   @Get(':ident_document')
-  findOne(@Param('ident_document', ParseIntPipe) ident_document: number) {
+  getOnlyUser(@Param('ident_document', ParseIntPipe) ident_document: number): Promise <User> {
     return this.usersService.getOnlyUser(+ident_document);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise <User> {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto){
+    return await this.usersService.update(+id, updateUserDto);
+  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete(':ident_document')
+  removeUser(@Param('ident_document', ParseIntPipe) ident_document: number) {
+    return this.usersService.removeUser(+ident_document);
   }
 }
