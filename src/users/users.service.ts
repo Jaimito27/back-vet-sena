@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -12,18 +13,15 @@ export class UsersService {
   ) {}
 
   async createUser(user: CreateUserDto) {
-
-      const newUser = this.userRepository.create(user);
+    const newUser = this.userRepository.create(user);
     return this.userRepository.save(newUser);
-    
   }
 
-
-  findAll() {
-    return `Hola mundo`;
+ async getUsers() {
+    return await this.userRepository.find();
   }
 
-  findOne(id: number) {
+  getOnlyUser(id: number) {
     return `This action returns a #${id} user`;
   }
 
