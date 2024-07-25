@@ -68,6 +68,12 @@ export class UsersService {
   }
 
   async removeUser(ident_document: string) {
-    return await this.userRepository.delete({ ident_document });
+    const result = await this.userRepository.delete({ident_document})
+
+    if(result.affected === 0){
+      return new HttpException('El usuario no existe', HttpStatus.NOT_FOUND)
+    }
+    
+    return result;
   }
 }
