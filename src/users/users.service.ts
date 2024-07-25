@@ -29,8 +29,8 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async updateUser(ident_document: number, user: UpdateUserDto) {
+    return `This action updates a #${ident_document} user`;
   }
 
   async removeUser(ident_document: number) {
