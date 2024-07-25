@@ -21,8 +21,12 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  getOnlyUser(id: number) {
-    return `This action returns a #${id} user`;
+  async getOnlyUser(ident_document: number) {
+    return await this.userRepository.findOne({
+      where: {
+        ident_document
+      }
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
