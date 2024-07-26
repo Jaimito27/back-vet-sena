@@ -7,8 +7,6 @@ import { PetsModule } from './pets/pets.module';
 
 @Module({
   imports: [
-    UsersModule,
-
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -16,12 +14,13 @@ import { PetsModule } from './pets/pets.module';
       username: 'root',
       password: '123456789',
       database: 'vet_db',
-   
+      
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       // migrations: [__dirname + '/../db/migrations/*{.ts,.js}'],
       // migrationsTableName: 'migrations',
     }),
+    UsersModule,
 
     PetsModule,
   ],

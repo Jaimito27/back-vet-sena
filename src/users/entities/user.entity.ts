@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Pet } from "src/pets/entities/pet.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity({name: 'users'})
 export class User {
@@ -33,5 +34,7 @@ export class User {
     @Column({nullable: false})
     password: string;
 
+    @OneToMany(()=> Pet, (pet) => pet.user)
+    pets: Pet[]
     
 }
