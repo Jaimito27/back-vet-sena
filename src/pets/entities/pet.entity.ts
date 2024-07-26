@@ -8,22 +8,22 @@ export class Pet {
     id: string;
 
     @Column({ nullable: false })
-    nombre: string;
+    name: string;
 
     @Column({ nullable: false })
-    edad: string;
+    age: string;
 
     @Column({ nullable: false })
-    tipo: string;
+    type: string;
 
     @Column({ nullable: false })
-    raza: string;
+    breed: string;
 
     @Column({ nullable: false, type: 'boolean', default: false})
-    peligroso: boolean;
+    dangerous: boolean;
 
     @Column({ nullable: false })
-    genero: string;
+    gender: string;
 
     @ManyToOne(()=> User, (user) => user.id,{
         eager: true, //cuando busquemos el usuario, tare la mascota

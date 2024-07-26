@@ -4,7 +4,6 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
-import { promises } from 'dns';
 
 @Injectable()
 export class PetsService {
@@ -16,12 +15,12 @@ export class PetsService {
   ){
 
   }
-  async create(createPetDto: CreatePetDto): Promise<Pet> {
-    return await this.petRepository.save(createPetDto);
+  async createPet(pet: CreatePetDto): Promise<Pet> {
+    return await this.petRepository.save(pet);
   }
 
-  findAll() {
-    return `This action returns all pets`;
+  async getPet() {
+    return await this.petRepository.find();
   }
 
   findOne(id: number) {

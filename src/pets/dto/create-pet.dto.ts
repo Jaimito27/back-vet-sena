@@ -10,29 +10,28 @@ import {
     @IsString()
     @MinLength(2)
     @IsNotEmpty()
-    nombre: string;
+    name: string;
   
     @IsString()
     @MinLength(1)
     @IsNotEmpty()
-    edad: string;
+    age: string;
   
     @IsString()
     @IsNotEmpty()
-    tipo: string;
+    type: string;
   
     @IsString()
     @IsNotEmpty()
-    raza: string;
+    breed: string;
   
-    @IsString()
     @IsNotEmpty()
     @IsBoolean()
-    peligros: boolean;
+    dangerous: boolean;
   
     @IsString()
     @IsNotEmpty()
     @IsIn(['Macho', 'Hembra']) //solo pueden ingresas estas 2 opciones
-    genero: string;
+    gender: string;
   }
   

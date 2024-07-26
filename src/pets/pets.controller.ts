@@ -9,12 +9,12 @@ export class PetsController {
 
   @Post()
   async create(@Body() createPetDto: CreatePetDto) {
-    return await this.petsService.create(createPetDto);
+    return await this.petsService.createPet(createPetDto);
   }
 
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  async findAll() {
+    return await this.petsService.getPet();
   }
 
   @Get(':id')
