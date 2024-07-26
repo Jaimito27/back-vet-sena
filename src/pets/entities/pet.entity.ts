@@ -1,4 +1,4 @@
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'pets' })
@@ -19,8 +19,8 @@ export class Pet {
     @Column({ nullable: false })
     raza: string;
 
-    @Column({ nullable: false, type: 'boolean', default: 'false' })
-    peligros: boolean;
+    @Column({ nullable: false, type: 'boolean', default: false})
+    peligroso: boolean;
 
     @Column({ nullable: false })
     genero: string;
@@ -32,5 +32,3 @@ export class Pet {
 
 
 }
-
-

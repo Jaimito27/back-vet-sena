@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PetsModule } from './pets/pets.module';
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -21,8 +22,9 @@ import { PetsModule } from './pets/pets.module';
       // migrationsTableName: 'migrations',
     }),
     UsersModule,
-
     PetsModule,
+
+
   ],
   controllers: [AppController],
   providers: [AppService],
