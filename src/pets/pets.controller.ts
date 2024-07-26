@@ -8,13 +8,13 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
-  async create(@Body() createPetDto: CreatePetDto) {
-    return await this.petsService.createPet(createPetDto);
+  async createPet(@Body() pet: CreatePetDto) {
+    return await this.petsService.createPet(pet);
   }
 
   @Get()
-  async findAll() {
-    return await this.petsService.getPet();
+  async getPets() {
+    return await this.petsService.getPets();
   }
 
   @Get(':id')

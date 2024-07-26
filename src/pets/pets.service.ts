@@ -2,17 +2,21 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+
+
+import { UsersService } from '../../src/users/users.service';
+
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class PetsService {
   constructor(
     //usando los servicios creados
-    @InjectRepository(Pet)
+
     private readonly usersService: UsersService,
-    private readonly petRepository: Repository<Pet>,
+
+    @InjectRepository(Pet) private petsRepository: Repository<Pet>
   ) {}
 
 
@@ -25,12 +29,12 @@ export class PetsService {
     }
 
     //si existe el usuario, crea la mascota
-    const newPet = this.petRepository.create(pet)
-    return await this.petRepository.save(newPet)
+    const newPet = this.petsRepository.create(pet)
+    return await this.petsRepository.save(newPet)
   }
 
-  async getPet() {
-    return await this.petRepository.find();
+  async getPets() {
+    return await this.petsRepository.find();
   }
 
   findOne(id: number) {
