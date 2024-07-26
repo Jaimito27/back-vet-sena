@@ -16,10 +16,10 @@ export class User {
     @Column({nullable: false})
     names: string;
 
-    @Column({nullable: true})
+    @Column({nullable: false})
     last_name: string;
     
-    @Column({nullable: true})   
+    @Column({nullable: false})   
     phone: string;
 
     @Column({nullable: false, unique: true})

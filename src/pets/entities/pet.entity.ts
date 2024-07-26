@@ -7,22 +7,22 @@ export class Pet {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     nombre: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     edad: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     tipo: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     raza: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false, type: 'boolean', default: 'false' })
     peligros: boolean;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     genero: string;
 
     @ManyToOne(()=> User, (user) => user.id,{
