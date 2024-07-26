@@ -25,7 +25,10 @@ export class Pet {
     @Column({ nullable: false })
     gender: string;
 
-    @ManyToOne(()=> User, (user) => user.id,{
+    @Column()
+    user_id: string;
+
+    @ManyToOne(()=> User, (user) => user.pet,{
         eager: true, //cuando busquemos el usuario, tare la mascota
     }) 
     user: User;
