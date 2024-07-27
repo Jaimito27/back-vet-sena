@@ -19,7 +19,7 @@ export class PetsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.petsService.findOne(+id);
+    return this.petsService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +29,6 @@ export class PetsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.petsService.remove(+id);
+    return this.petsService.remove(id);
   }
 }

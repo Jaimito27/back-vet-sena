@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   async getUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({relations:['pets']});
   }
 
   async getOnlyUser(ident_document: string) {
@@ -54,6 +54,7 @@ export class UsersService {
       where: {
         ident_document,
       },
+      relations:['pets']
     });
 
     if(!userFound){

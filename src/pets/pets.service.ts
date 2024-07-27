@@ -8,11 +8,11 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { UsersService } from '../../src/users/users.service';
 
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
 import { User } from '.././users/entities/user.entity';
+import { UsersService } from '../../src/users/users.service';
 
 @Injectable()
 export class PetsService {
@@ -40,6 +40,7 @@ export class PetsService {
     }
 
     }
+    return this.petsRepository.save(newPet)
 
   }
 
@@ -47,15 +48,15 @@ export class PetsService {
     return await this.petsRepository.find({ relations: ['owner'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pet`;
+  async findOne(id: string) {
+    return await this.petsRepository.findOneBy({id} );
   }
 
   update(id: number, updatePetDto: UpdatePetDto) {
     return `This action updates a #${id} pet`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pet`;
+  remove(id: string) {
+    return this.petsRepository.delete({id});
   }
 }
