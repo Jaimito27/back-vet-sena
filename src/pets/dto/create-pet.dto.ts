@@ -29,9 +29,9 @@ export class CreatePetDto {
   @IsBoolean()
   dangerous: boolean;
 
-  @IsString()
   @IsNotEmpty()
-  user_id: string;
+  @IsString()
+  ident_document: string; 
 
   @IsString()
   @IsNotEmpty()

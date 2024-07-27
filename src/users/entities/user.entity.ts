@@ -35,7 +35,7 @@ export class User {
     @Column({nullable: false})
     password: string;
 
-    @OneToMany(() => Pet, pet => pet.user)
-    pet: Pet[]
+    @OneToMany(() => Pet, (pet) => pet.owner)
+    pets: Pet[]
 
 }

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -57,7 +57,7 @@ export class UsersService {
     });
 
     if(!userFound){
-      return new HttpException('El usuario no existe', HttpStatus.NOT_FOUND)
+      return new  HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
     }
 
     return userFound;

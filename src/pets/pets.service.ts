@@ -1,13 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-
 
 import { UsersService } from '../../src/users/users.service';
 
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
+import { User } from '.././users/entities/user.entity';
 
 @Injectable()
 export class PetsService {
@@ -16,25 +21,30 @@ export class PetsService {
 
     private readonly usersService: UsersService,
 
-    @InjectRepository(Pet) private petsRepository: Repository<Pet>
+    @InjectRepository(Pet) private petsRepository: Repository<Pet>,
+    @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-
   async createPet(pet: CreatePetDto) {
-    //verificando que eixsta el usuario al cual relacionar
-    const userFound = await this.usersService.getOnlyUser(pet.user_id);
 
-    if (!userFound) {
-      return new HttpException('Usuario no existe', HttpStatus.CONFLICT);
+
+    const newPet = this.petsRepository.create(pet);
+
+    if (pet.ident_document) {
+     const userFound = await this.usersService.getOnlyUser(pet.ident_document);
+
+    if(userFound instanceof User ){
+      newPet.owner = userFound;
+    }else{
+      return new HttpException('No existe usuario', HttpStatus.NOT_FOUND);
     }
 
-    //si existe el usuario, crea la mascota
-    const newPet = this.petsRepository.create(pet)
-    return await this.petsRepository.save(newPet)
+    }
+
   }
 
   async getPets() {
-    return await this.petsRepository.find();
+    return await this.petsRepository.find({ relations: ['owner'] });
   }
 
   findOne(id: number) {
