@@ -52,8 +52,17 @@ export class PetsService {
     return await this.petsRepository.findOneBy({id} );
   }
 
-  update(id: number, updatePetDto: UpdatePetDto) {
-    return `This action updates a #${id} pet`;
+  async updatePet(id: string, pet: UpdatePetDto) {
+    const petFound = await this.petsRepository.findOneBy({id})
+
+    if(!petFound){
+      return new HttpException('Mascota no existe', HttpStatus.NOT_FOUND)
+    }
+
+    const updatePet = Object.assign(petFound, pet) 
+  
+    return await this.petsRepository.save(updatePet)
+  
   }
 
   remove(id: string) {

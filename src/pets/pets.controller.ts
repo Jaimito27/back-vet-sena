@@ -23,8 +23,8 @@ export class PetsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petsService.update(+id, updatePetDto);
+  update(@Param('id') id: string, @Body() pet: UpdatePetDto) {
+    return this.petsService.updatePet(id, pet);
   }
 
   @Delete(':id')
