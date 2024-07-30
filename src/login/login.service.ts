@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Login } from './entities/login.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LoginService {
+
+  constructor(
+    @InjectRepository(Login) private readonly loginRepository: Repository<Login>,
+  ){}
+
   async create(login: CreateLoginDto) {
-    return 'This action adds a new login';
+    return await this.loginRepository.save(login);
   }
 
   findAll() {

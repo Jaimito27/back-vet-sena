@@ -4,7 +4,13 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
+
+ 
+  async createEmployee(createEmployeeDto: CreateEmployeeDto) {
+
+    
+
+
     return 'This action adds a new employee';
   }
 
