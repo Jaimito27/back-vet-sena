@@ -4,7 +4,7 @@ import { UpdateLoginDto } from './dto/update-login.dto';
 
 @Injectable()
 export class LoginService {
-  create(createLoginDto: CreateLoginDto) {
+  async create(login: CreateLoginDto) {
     return 'This action adds a new login';
   }
 

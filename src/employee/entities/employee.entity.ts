@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Login } from '../../login/entities/login.entity';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({name: 'employee'})
 export class Employee {
@@ -35,4 +36,7 @@ export class Employee {
   @Column({nullable: false})
   occupation: string;
 
+  @OneToOne(()=> Login)
+  @JoinColumn()
+  login: Login;
 }

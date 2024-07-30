@@ -1,1 +1,12 @@
-export class CreateLoginDto {}
+import { IsNotEmpty, IsString, MinLength } from "class-validator";
+
+export class CreateLoginDto {
+    @IsString()
+    @IsNotEmpty()
+    username: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(5)
+    password: string;
+}
