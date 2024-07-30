@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PetsModule } from './pets/pets.module';
+import { EmployeeModule } from './employee/employee.module';
+import { RoleModule } from './role/role.module';
 
 
 @Module({
@@ -23,6 +25,8 @@ import { PetsModule } from './pets/pets.module';
     }),
     UsersModule,
     PetsModule,
+    EmployeeModule,
+    RoleModule,
 
 
   ],

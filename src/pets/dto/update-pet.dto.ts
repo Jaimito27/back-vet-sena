@@ -23,8 +23,8 @@ export class UpdatePetDto {
     @IsNotEmpty()
     @IsOptional()
     dangerous: boolean;
-  
-  
+
+   
     @IsString()
     @IsOptional()
     @IsIn(['Macho', 'Hembra']) //solo pueden ingresas estas 2 opciones
