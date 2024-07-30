@@ -27,13 +27,8 @@ export class User {
     email: string;
 
     @Column({type: 'datetime', default: ()=>'CURRENT_TIMESTAMP'})
-    createdAt: Date;
+    creation_date: Date;
 
-    @Column({nullable: false, unique: true})
-    username: string;
-
-    @Column({nullable: false})
-    password: string;
 
     @OneToMany(() => Pet, (pet) => pet.owner)
     pets: Pet[]
