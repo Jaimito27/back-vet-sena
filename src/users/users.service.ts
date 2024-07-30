@@ -15,7 +15,7 @@ export class UsersService {
     const userFound = await this.userRepository.findOne({
       where: [
         { ident_document: user.ident_document },
-        { username: user.username },
+ 
         { email: user.email },
       ],
     });
@@ -26,12 +26,8 @@ export class UsersService {
           'Ya existe un usuario con esté numero de identificación',
           HttpStatus.CONFLICT,
         );
-      }
-      if (userFound.username === user.username) {
-        return new HttpException(
-          'Ya existe un usuario con este nombre de usuario',
-          HttpStatus.CONFLICT,
-        );
+      
+
       }
       if (userFound.email === user.email) {
         return new HttpException(
