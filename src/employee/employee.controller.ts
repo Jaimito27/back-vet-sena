@@ -9,12 +9,12 @@ export class EmployeeController {
 
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeeService.create(createEmployeeDto);
+    return this.employeeService.createEmployee(createEmployeeDto);
   }
 
   @Get()
   findAll() {
-    return this.employeeService.findAll();
+    return this.employeeService.getEmployee();
   }
 
   @Get(':id')

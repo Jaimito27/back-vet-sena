@@ -22,7 +22,6 @@ export class PetsService {
     private readonly usersService: UsersService,
 
     @InjectRepository(Pet) private petsRepository: Repository<Pet>,
-    @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
   async createPet(pet: CreatePetDto) {

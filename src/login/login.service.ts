@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,9 +12,17 @@ export class LoginService {
     @InjectRepository(Login) private readonly loginRepository: Repository<Login>,
   ){}
 
-  async create(login: CreateLoginDto) {
-    return await this.loginRepository.save(login);
-  }
+  async createLogin(login: CreateLoginDto) {
+    
+    
+    const userNameFound = await this.loginRepository.findOne({where: {username: login.username}})
+    
+    if(userNameFound) return new HttpException('Ya existe un usuario con ese nombre de usuario', HttpStatus.CONFLICT)
+     
+      const newLogin = this.loginRepository.create(login)
+      return await this.loginRepository.save(newLogin)
+
+    }
 
   findAll() {
     return `This action returns all login`;
