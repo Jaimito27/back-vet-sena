@@ -12,7 +12,7 @@ export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
-    private readonly loginService: LoginService
+    private readonly loginService: LoginService,
   ) {}
 
   async createEmployee(employee: CreateEmployeeDto) {
@@ -20,31 +20,36 @@ export class EmployeeService {
       ident_document: employee.ident_document,
     });
 
-    if(employeeFound){
-      return new HttpException('Usuario ya existe', HttpStatus.CONFLICT)
+    if (employeeFound) {
+      return new HttpException('Empleado ya existe', HttpStatus.CONFLICT);
     }
-
-  
 
     const newLogin = await this.loginService.createLogin({
       username: employee.username,
-      password: employee.password
-    })
+      password: employee.password,
+    });
 
-   if(!(newLogin instanceof Login)) return new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR)
+    if (!(newLogin instanceof Login))
+      return new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR);
 
-
-    const newEmployee = this.employeeRepository.create(employee)
+    const newEmployee = this.employeeRepository.create(employee);
     newEmployee.login = newLogin;
-    return await this.employeeRepository.save(newEmployee)
+    return await this.employeeRepository.save(newEmployee);
   }
 
-  async getEmployee() {
-    return await this.employeeRepository.find({relations: ['login']});
+  async getEmployees() {
+    return await this.employeeRepository.find({ relations: ['login'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  async getEmployee(ident_document: string) {
+    const employeeFound = await this.employeeRepository.findOne({
+      where: { ident_document },
+      relations: ['login'],
+    });
+
+    if(!employeeFound) return new HttpException('El empleado no existe', HttpStatus.NOT_FOUND)
+
+    return employeeFound;
   }
 
   update(id: number, updateEmployeeDto: UpdateEmployeeDto) {

@@ -14,12 +14,12 @@ export class EmployeeController {
 
   @Get()
   findAll() {
-    return this.employeeService.getEmployee();
+    return this.employeeService.getEmployees();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.employeeService.findOne(+id);
+    return this.employeeService.getEmployee(id);
   }
 
   @Patch(':id')
