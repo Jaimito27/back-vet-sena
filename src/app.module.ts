@@ -7,6 +7,7 @@ import { PetsModule } from './pets/pets.module';
 import { EmployeeModule } from './employee/employee.module';
 import { RoleModule } from './role/role.module';
 import { LoginModule } from './login/login.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { LoginModule } from './login/login.module';
     EmployeeModule,
     RoleModule,
     LoginModule,
+    AppointmentsModule,
 
 
   ],
