@@ -4,11 +4,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { LoginService } from '../../src/login/login.service';
+import { Login } from '../../src/login/entities/login.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+
+    private readonly loginService: LoginService
   ) {}
 
   async createUser(user: CreateUserDto) {
@@ -36,14 +40,22 @@ export class UsersService {
       }
     }
 
-    
+const newLogin = await this.loginService.createLogin({
+  username: user.username,
+  password: user.password
+})
+  if(!(newLogin instanceof Login)) return new HttpException('Ya existe un usuario creado con ese npmbre de usuario', HttpStatus.CONFLICT)
+
 
     const newUser = this.userRepository.create(user);
+    newUser.login = newLogin;
     return await this.userRepository.save(newUser);
+
+
   }
 
   async getUsers() {
-    return await this.userRepository.find({relations:['pets']});
+    return await this.userRepository.find({relations:['pets','login']});
   }
 
   async getOnlyUser(ident_document: string) {
@@ -51,7 +63,7 @@ export class UsersService {
       where: {
         ident_document,
       },
-      relations:['pets']
+      relations:['pets','login'],
     });
 
     if(!userFound){

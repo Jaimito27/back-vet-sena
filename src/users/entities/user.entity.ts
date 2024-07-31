@@ -1,6 +1,7 @@
 
+import { Login } from "../../login/entities/login.entity";
 import { Pet } from "../../pets/entities/pet.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity({name: 'users'})
 export class User {
@@ -28,6 +29,10 @@ export class User {
 
     @Column({type: 'datetime', default: ()=>'CURRENT_TIMESTAMP'})
     creation_date: Date;
+
+    @OneToOne(()=> Login, { cascade: true })
+  @JoinColumn()
+  login: Login;
 
 
     @OneToMany(() => Pet, (pet) => pet.owner)
