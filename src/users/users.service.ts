@@ -36,6 +36,8 @@ export class UsersService {
       }
     }
 
+    
+
     const newUser = this.userRepository.create(user);
     return await this.userRepository.save(newUser);
   }

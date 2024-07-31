@@ -16,12 +16,26 @@ export class EmployeeService {
   ) {}
 
   async createEmployee(employee: CreateEmployeeDto) {
-    const employeeFound = await this.employeeRepository.findOneBy({
-      ident_document: employee.ident_document,
+    const employeeFound = await this.employeeRepository.findOne({
+      where: [
+        { ident_document: employee.ident_document },
+        { email: employee.email },
+      ],
     });
 
     if (employeeFound) {
-      return new HttpException('Empleado ya existe', HttpStatus.CONFLICT);
+      if (employeeFound.ident_document === employee.ident_document) {
+        return new HttpException(
+          'Ya existe un empleado con esta identificación',
+          HttpStatus.CONFLICT,
+        );
+      }
+      if (employeeFound.email === employee.email) {
+        return new HttpException(
+          'Ya existe un empleado con este email',
+          HttpStatus.CONFLICT,
+        );
+      }
     }
 
     const newLogin = await this.loginService.createLogin({
@@ -30,7 +44,7 @@ export class EmployeeService {
     });
 
     if (!(newLogin instanceof Login))
-      return new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR);
+      return new HttpException('Ya existe un empleado con este nombre de usuario', HttpStatus.CONFLICT);
 
     const newEmployee = this.employeeRepository.create(employee);
     newEmployee.login = newLogin;
@@ -47,7 +61,8 @@ export class EmployeeService {
       relations: ['login'],
     });
 
-    if(!employeeFound) return new HttpException('El empleado no existe', HttpStatus.NOT_FOUND)
+    if (!employeeFound)
+      return new HttpException('El empleado no existe', HttpStatus.NOT_FOUND);
 
     return employeeFound;
   }
