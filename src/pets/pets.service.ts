@@ -44,7 +44,7 @@ export class PetsService {
   }
 
   async getPets() {
-    return await this.petsRepository.find({ relations: ['owner'] });
+    return await this.petsRepository.find({ relations: ['owner', 'appointments'] });
   }
 
   async findOne(id: string) {
