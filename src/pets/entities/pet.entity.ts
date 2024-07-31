@@ -1,9 +1,11 @@
+import { Appointment } from '../../appointments/entities/appointment.entity';
 import { User } from '../../users/entities/user.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -30,9 +32,9 @@ export class Pet {
   @Column({ nullable: false })
   gender: string;
 
-
+  @OneToMany(()=> Appointment, appointment => appointment.pet)
+  appointments: Appointment[];
 
   @ManyToOne(() => User, (user) => user.pets)
-
   owner: User;
 }

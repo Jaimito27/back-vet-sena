@@ -1,41 +1,44 @@
+import { Login } from '../../login/entities/login.entity';
+import { Pet } from '../../pets/entities/pet.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-import { Login } from "../../login/entities/login.entity";
-import { Pet } from "../../pets/entities/pet.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @Column()
+  doc_type: string;
 
-    @Column()
-    doc_type: string;
+  @Column({ nullable: false, unique: true })
+  ident_document: string;
 
-    @Column({nullable: false, unique: true})
-    ident_document: string;
+  @Column({ nullable: false })
+  names: string;
 
-    @Column({nullable: false})
-    names: string;
+  @Column({ nullable: false })
+  last_name: string;
 
-    @Column({nullable: false})
-    last_name: string;
-    
-    @Column({nullable: false})   
-    phone: string;
+  @Column({ nullable: false })
+  phone: string;
 
-    @Column({nullable: false, unique: true})
-    email: string;
+  @Column({ nullable: false, unique: true })
+  email: string;
 
-    @Column({type: 'datetime', default: ()=>'CURRENT_TIMESTAMP'})
-    creation_date: Date;
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  creation_date: Date;
 
-    @OneToOne(()=> Login, { cascade: true })
+  @OneToOne(() => Login, { cascade: true })
   @JoinColumn()
   login: Login;
 
-
-    @OneToMany(() => Pet, (pet) => pet.owner)
-    pets: Pet[]
-
+  @OneToMany(() => Pet, (pet) => pet.owner)
+  pets: Pet[];
 }
