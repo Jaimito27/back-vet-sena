@@ -48,8 +48,15 @@ export class PetsService {
   }
 
   async findOne(id: string) {
-    return await this.petsRepository.findOneBy({id} );
+    return await this.petsRepository.findOne({
+      where: {
+        id
+      }, relations: ['appointments', 'owner']
+    });
   }
+
+
+  
 
   async updatePet(id: string, pet: UpdatePetDto) {
     const petFound = await this.petsRepository.findOneBy({id})
