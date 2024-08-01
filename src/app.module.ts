@@ -8,6 +8,7 @@ import { EmployeeModule } from './employee/employee.module';
 import { RoleModule } from './role/role.module';
 import { LoginModule } from './login/login.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -31,6 +32,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
     RoleModule,
     LoginModule,
     AppointmentsModule,
+    AuthModule,
 
 
   ],
