@@ -8,8 +8,8 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeeService.createEmployee(createEmployeeDto);
+  create(@Body() employee: CreateEmployeeDto) {
+    return this.employeeService.createEmployee(employee);
   }
 
   @Get()
@@ -24,7 +24,7 @@ export class EmployeeController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
-    return this.employeeService.update(+id, updateEmployeeDto);
+    return this.employeeService.updateEmployee(id, updateEmployeeDto);
   }
 
   @Delete(':id')

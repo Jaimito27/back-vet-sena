@@ -67,8 +67,20 @@ export class EmployeeService {
     return employeeFound;
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async updateEmployee(ident_document: string, employee: UpdateEmployeeDto) {
+
+    const employeeFound = await this.employeeRepository.findOne({
+      where: {ident_document}
+    })
+
+    if(!employeeFound){
+      console.log(employeeFound)
+      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND)
+    }
+
+    const employeeUpdate = Object.assign(employeeFound, employee)
+
+    return await this.employeeRepository.save(employeeUpdate)
   }
 
   async removeEmployee(ident_document: string) {
@@ -76,7 +88,7 @@ export class EmployeeService {
     const result = await this.employeeRepository.delete({ident_document})
     
     if(result.affected === 0){
-      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
+      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND)
     }
     
     return result;
