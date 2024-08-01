@@ -28,8 +28,19 @@ export class LoginService {
     return `This action returns all login`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} login`;
+  async getUserUsername(username: string) {
+    const userFound = await this.loginRepository.findOne({
+      where: {
+        username
+      }
+    })
+
+    if (!userFound) {
+      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+    }
+
+    return userFound
+
   }
 
   update(id: number, updateLoginDto: UpdateLoginDto) {

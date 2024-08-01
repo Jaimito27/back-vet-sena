@@ -78,6 +78,9 @@ export class UsersService {
     return userFound;
   }
 
+
+
+
   async updateUser(ident_document: string, user: UpdateUserDto) {
     const userFound = await this.userRepository.findOne({
       where: {

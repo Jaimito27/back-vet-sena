@@ -19,7 +19,7 @@ export class LoginController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.loginService.findOne(+id);
+    return this.loginService.getUserUsername(id);
   }
 
   @Patch(':id')
