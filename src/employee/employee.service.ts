@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { LoginService } from '../../src/login/login.service';
 import { Login } from '../../src/login/entities/login.entity';
 
+import * as bcryptjs from 'bcryptjs';
+
 @Injectable()
 export class EmployeeService {
   constructor(
@@ -38,9 +40,11 @@ export class EmployeeService {
       }
     }
 
+    const heshedPassword = await bcryptjs.hash(employee.password, 10)
+
     const newLogin = await this.loginService.createLogin({
       username: employee.username,
-      password: employee.password,
+      password: heshedPassword,
     });
 
     if (!(newLogin instanceof Login))
