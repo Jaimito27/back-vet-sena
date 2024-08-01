@@ -71,7 +71,14 @@ export class EmployeeService {
     return `This action updates a #${id} employee`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async removeEmployee(ident_document: string) {
+    
+    const result = await this.employeeRepository.delete({ident_document})
+    
+    if(result.affected === 0){
+      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
+    }
+    
+    return result;
   }
 }
