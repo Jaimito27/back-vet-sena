@@ -1,3 +1,4 @@
+import { Role } from '../../role/entities/role.entity';
 import { Login } from '../../login/entities/login.entity';
 import { Pet } from '../../pets/entities/pet.entity';
 import {
@@ -38,6 +39,10 @@ export class User {
   @OneToOne(() => Login, { cascade: true })
   @JoinColumn()
   login: Login;
+
+  @OneToOne(()=>Role)
+  @JoinColumn()
+  role: Role;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];
