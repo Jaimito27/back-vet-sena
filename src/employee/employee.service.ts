@@ -8,7 +8,6 @@ import { LoginService } from '../../src/login/login.service';
 import { Login } from '../../src/login/entities/login.entity';
 
 import * as bcryptjs from 'bcryptjs';
-import { RoleService } from '../../src/role/role.service';
 
 @Injectable()
 export class EmployeeService {
@@ -16,7 +15,6 @@ export class EmployeeService {
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
     private readonly loginService: LoginService,
-    private readonly roleService: RoleService,
   ) {}
 
   async createEmployee(employee: CreateEmployeeDto) {

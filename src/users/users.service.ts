@@ -13,14 +13,13 @@ import { LoginService } from '../../src/login/login.service';
 import { Login } from '../../src/login/entities/login.entity';
 
 import * as bcryptjs from 'bcryptjs';
-import { RoleService } from '../../src/role/role.service';
 
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-private readonly roleService: RoleService,
+
     private readonly loginService: LoginService,
   ) {}
 

@@ -1,4 +1,3 @@
-import { Role } from '../../role/entities/role.entity';
 import { Login } from '../../login/entities/login.entity';
 import { Pet } from '../../pets/entities/pet.entity';
 import {
@@ -37,12 +36,12 @@ export class User {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   creation_date: Date;
 
+  @Column({default: 'user'})
+  role: string;
+
   @OneToOne(() => Login, { cascade: true })
   @JoinColumn()
   login: Login;
-
-  @ManyToOne(() => Role)
-  role: Role;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];
