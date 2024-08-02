@@ -1,4 +1,4 @@
-import { Role } from '../../role/entities/role.entity';
+
 import { Login } from '../../login/entities/login.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -37,8 +37,7 @@ export class Employee {
   @Column({nullable: false})
   occupation: string;
 
-  @ManyToOne(() => Role, (role) =>role.employee)
-  role: Role;
+
 
   @OneToOne(()=> Login, { cascade: true })
   @JoinColumn()

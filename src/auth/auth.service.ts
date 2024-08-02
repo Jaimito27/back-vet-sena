@@ -3,9 +3,10 @@ import { AuthDto } from './dto/auth.dto';
 import { LoginService } from '../../src/login/login.service';
 import * as bcryptjs from 'bcryptjs';;
 import { JwtService } from '@nestjs/jwt';
-import { Role } from '../../src/role/entities/role.entity';
 import { UsersService } from '../../src/users/users.service';
 import { EmployeeService } from '../../src/employee/employee.service';
+import { User } from '../../src/users/entities/user.entity';
+import { Employee } from '../../src/employee/entities/employee.entity';
 
 @Injectable()
 export class AuthService {
@@ -35,14 +36,19 @@ export class AuthService {
       return new HttpException('Contraseña invalida', HttpStatus.UNAUTHORIZED);
 
 
-//determinar si es usuario o empeadlo
 
 
-    const patyload = {username: userFound.username, }
+    const patyload = {username: userFound.username}
     const token = await this.jwtService.signAsync(patyload)
 
     return {
-        token, username
+        token,
+        username: userFound.username
     };
-  }
+}
+
+
+
+
+
 }

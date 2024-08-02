@@ -14,7 +14,7 @@ import { Login } from '../../src/login/entities/login.entity';
 
 import * as bcryptjs from 'bcryptjs';
 import { RoleService } from '../../src/role/role.service';
-import { CreateRoleDto } from 'src/role/dto/create-role.dto';
+
 
 @Injectable()
 export class UsersService {
@@ -56,18 +56,16 @@ private readonly roleService: RoleService,
         HttpStatus.CONFLICT,
       );
 
-      const defaultRoleDto: CreateRoleDto = {role: 'user'};
-      
-      const defaultRole = await this.roleService.createNewRole(defaultRoleDto)
+
 
     const newUser = this.userRepository.create(user);
     newUser.login = newLogin;
-    newUser.role = defaultRole;
+
     return await this.userRepository.save(newUser);
   }
 
   async getUsers() {
-    return await this.userRepository.find({ relations: ['pets', 'login', 'role'] });
+    return await this.userRepository.find({ relations: ['pets', 'login'] });
   }
 
   async getOnlyUser(id: string) {
@@ -75,7 +73,7 @@ private readonly roleService: RoleService,
       where: {
         id,
       },
-      relations: ['pets', 'login','role'],
+      relations: ['pets', 'login'],
     });
 
     if (!userFound) {
