@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -40,9 +41,13 @@ export class User {
   @JoinColumn()
   login: Login;
 
-  @OneToOne(()=>Role)
-  @JoinColumn()
-  role: Role;
+
+
+
+
+  @ManyToOne(() => Role)
+role: Role;
+
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];
