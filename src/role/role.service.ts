@@ -7,16 +7,28 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class RoleService {
-
   constructor(
-    @InjectRepository(Role) private readonly roleRepository: Repository<Role>
-  ){}
+    @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+  ) {}
   async createRoleDefault(role: CreateRoleDto) {
-    let roleFound = await this.roleRepository.findOne({where: {role: 'user'}})
+    let roleFound = await this.roleRepository.findOne({
+      where: { role: 'user' },
+    });
 
-    if(!roleFound){
-      roleFound = this.roleRepository.create({role: 'user'});
-      await this.roleRepository.save(roleFound)
+    if (!roleFound) {
+      roleFound = this.roleRepository.create({ role: 'user' });
+      await this.roleRepository.save(roleFound);
+    }
+
+    return roleFound;
+  }
+
+  async createNewRole(role: CreateRoleDto):Promise <Role> {
+    let roleFound = await this.roleRepository.findOne({where: {role: role.role}});
+
+    if (!roleFound) {
+      const newRole = this.roleRepository.create(role);
+      await this.roleRepository.save(newRole);
     }
 
     return roleFound;

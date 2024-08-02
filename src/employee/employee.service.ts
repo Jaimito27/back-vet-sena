@@ -8,6 +8,7 @@ import { LoginService } from '../../src/login/login.service';
 import { Login } from '../../src/login/entities/login.entity';
 
 import * as bcryptjs from 'bcryptjs';
+import { RoleService } from '../../src/role/role.service';
 
 @Injectable()
 export class EmployeeService {
@@ -15,6 +16,7 @@ export class EmployeeService {
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
     private readonly loginService: LoginService,
+    private readonly roleService: RoleService,
   ) {}
 
   async createEmployee(employee: CreateEmployeeDto) {
@@ -40,7 +42,7 @@ export class EmployeeService {
       }
     }
 
-    const heshedPassword = await bcryptjs.hash(employee.password, 10)
+    const heshedPassword = await bcryptjs.hash(employee.password, 10);
 
     const newLogin = await this.loginService.createLogin({
       username: employee.username,
@@ -48,15 +50,26 @@ export class EmployeeService {
     });
 
     if (!(newLogin instanceof Login))
-      return new HttpException('Ya existe un empleado con este nombre de usuario', HttpStatus.CONFLICT);
+      return new HttpException(
+        'Ya existe un empleado con este nombre de usuario',
+        HttpStatus.CONFLICT,
+      );
 
-    const newEmployee = this.employeeRepository.create(employee);
-    newEmployee.login = newLogin;
+    const newRole = await this.roleService.createNewRole({
+      role: employee.role,
+    });
+
+    const newEmployee = this.employeeRepository.create({
+      ...employee,
+      login: newLogin,
+      role: newRole
+    })
+
     return await this.employeeRepository.save(newEmployee);
   }
 
   async getEmployees() {
-    return await this.employeeRepository.find({ relations: ['login'] });
+    return await this.employeeRepository.find({ relations: ['login', 'role'] });
   }
 
   async getEmployee(ident_document: string) {
@@ -72,29 +85,27 @@ export class EmployeeService {
   }
 
   async updateEmployee(ident_document: string, employee: UpdateEmployeeDto) {
-
     const employeeFound = await this.employeeRepository.findOne({
-      where: {ident_document}
-    })
+      where: { ident_document },
+    });
 
-    if(!employeeFound){
-      console.log(employeeFound)
-      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND)
+    if (!employeeFound) {
+      console.log(employeeFound);
+      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND);
     }
 
-    const employeeUpdate = Object.assign(employeeFound, employee)
+    const employeeUpdate = Object.assign(employeeFound, employee);
 
-    return await this.employeeRepository.save(employeeUpdate)
+    return await this.employeeRepository.save(employeeUpdate);
   }
 
   async removeEmployee(ident_document: string) {
-    
-    const result = await this.employeeRepository.delete({ident_document})
-    
-    if(result.affected === 0){
-      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND)
+    const result = await this.employeeRepository.delete({ ident_document });
+
+    if (result.affected === 0) {
+      return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND);
     }
-    
+
     return result;
   }
 }

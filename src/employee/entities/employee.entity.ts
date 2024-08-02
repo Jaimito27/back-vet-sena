@@ -1,5 +1,6 @@
+import { Role } from '../../role/entities/role.entity';
 import { Login } from '../../login/entities/login.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({name: 'employee'})
 export class Employee {
@@ -35,6 +36,9 @@ export class Employee {
 
   @Column({nullable: false})
   occupation: string;
+
+  @ManyToOne(() => Role, (role) =>role.employee)
+  role: Role;
 
   @OneToOne(()=> Login, { cascade: true })
   @JoinColumn()

@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { Role } from '../../role/entities/role.entity';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -44,6 +45,10 @@ export class CreateEmployeeDto {
   @IsString()
   @IsNotEmpty()
   occupation: string;
+
+  @IsString()
+  @IsNotEmpty()
+  role: string;
 
   @IsString()
   @IsNotEmpty()
