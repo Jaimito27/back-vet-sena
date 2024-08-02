@@ -72,10 +72,10 @@ export class EmployeeService {
     return await this.employeeRepository.find({ relations: ['login', 'role'] });
   }
 
-  async getEmployee(ident_document: string) {
+  async getEmployee(id: string) {
     const employeeFound = await this.employeeRepository.findOne({
-      where: { ident_document },
-      relations: ['login'],
+      where: { id },
+      relations: ['login', 'role'],
     });
 
     if (!employeeFound)
@@ -84,9 +84,9 @@ export class EmployeeService {
     return employeeFound;
   }
 
-  async updateEmployee(ident_document: string, employee: UpdateEmployeeDto) {
+  async updateEmployee(id: string, employee: UpdateEmployeeDto) {
     const employeeFound = await this.employeeRepository.findOne({
-      where: { ident_document },
+      where: { id },
     });
 
     if (!employeeFound) {
@@ -99,8 +99,8 @@ export class EmployeeService {
     return await this.employeeRepository.save(employeeUpdate);
   }
 
-  async removeEmployee(ident_document: string) {
-    const result = await this.employeeRepository.delete({ ident_document });
+  async removeEmployee(id: string) {
+    const result = await this.employeeRepository.delete({ id });
 
     if (result.affected === 0) {
       return new HttpException('Empleado no existe', HttpStatus.NOT_FOUND);

@@ -70,10 +70,10 @@ private readonly roleService: RoleService,
     return await this.userRepository.find({ relations: ['pets', 'login', 'role'] });
   }
 
-  async getOnlyUser(ident_document: string) {
+  async getOnlyUser(id: string) {
     const userFound = await this.userRepository.findOne({
       where: {
-        ident_document,
+        id,
       },
       relations: ['pets', 'login','role'],
     });
@@ -88,10 +88,10 @@ private readonly roleService: RoleService,
 
 
 
-  async updateUser(ident_document: string, user: UpdateUserDto) {
+  async updateUser(id: string, user: UpdateUserDto) {
     const userFound = await this.userRepository.findOne({
       where: {
-        ident_document,
+        id,
       },
     });
 
@@ -103,8 +103,8 @@ private readonly roleService: RoleService,
     return await this.userRepository.save(updateUser);
   }
 
-  async removeUser(ident_document: string) {
-    const result = await this.userRepository.delete({ ident_document });
+  async removeUser(id: string) {
+    const result = await this.userRepository.delete({ id });
 
     if (result.affected === 0) {
       return new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);

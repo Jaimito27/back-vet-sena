@@ -27,24 +27,24 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
-  @Get(':ident_document')
+  @Get(':id')
   getOnlyUser(
-    @Param('ident_document') ident_document: string,
+    @Param('id') id: string,
   ) {
 
-    return this.usersService.getOnlyUser(ident_document);
+    return this.usersService.getOnlyUser(id);
   }
 
-  @Patch(':ident_document')
+  @Patch(':id')
   async updateUser(
-    @Param('ident_document') ident_document: string,
+    @Param('id') id: string,
     @Body() user: UpdateUserDto,
   ) {
-    return await this.usersService.updateUser(ident_document, user);
+    return await this.usersService.updateUser(id, user);
   }
 
-  @Delete(':ident_document')
-  removeUser(@Param('ident_document') ident_document: string) {
-    return this.usersService.removeUser(ident_document);
+  @Delete(':id')
+  removeUser(@Param('id') id: string) {
+    return this.usersService.removeUser(id);
   }
 }
