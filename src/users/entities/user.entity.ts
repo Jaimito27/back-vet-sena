@@ -41,13 +41,8 @@ export class User {
   @JoinColumn()
   login: Login;
 
-
-
-
-
   @ManyToOne(() => Role)
-role: Role;
-
+  role: Role;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];

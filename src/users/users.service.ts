@@ -64,7 +64,7 @@ private readonly roleService: RoleService,
   }
 
   async getUsers() {
-    return await this.userRepository.find({ relations: ['pets', 'login'] });
+    return await this.userRepository.find({ relations: ['pets', 'login', 'role'] });
   }
 
   async getOnlyUser(ident_document: string) {
