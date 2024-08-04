@@ -20,23 +20,14 @@ export class AuthService {
   async login({ username, password}: AuthDto) {
     const userFound = await this.loginService.getUserUsername(username);
 
-    if (userFound instanceof HttpException) {
-      throw userFound;
-    }
+    if (!userFound || userFound instanceof HttpException)  return new HttpException('credenciales invalidas', HttpStatus.NOT_FOUND);
+     
 
-    if (!userFound)
-      return new HttpException('credenciales invalidas', HttpStatus.NOT_FOUND);
+    const isPasswordValid = await bcryptjs.compare(password, userFound.password);
 
-    const isPasswordValid = await bcryptjs.compare(
-      password,
-      userFound.password,
-    );
+    if (!isPasswordValid) return new HttpException('Contraseña invalida', HttpStatus.UNAUTHORIZED);
 
-    if (!isPasswordValid)
-      return new HttpException('Contraseña invalida', HttpStatus.UNAUTHORIZED);
-
-
-
+ 
 
     const patyload = {username: userFound.username}
     const token = await this.jwtService.signAsync(patyload)

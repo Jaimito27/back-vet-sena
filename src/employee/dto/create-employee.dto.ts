@@ -44,6 +44,10 @@ export class CreateEmployeeDto {
 
   @IsString()
   @IsNotEmpty()
+  role: string;
+
+  @IsString()
+  @IsNotEmpty()
   occupation: string;
 
 

@@ -37,7 +37,8 @@ export class Employee {
   @Column({nullable: false})
   occupation: string;
 
-
+  @Column({nullable: false})
+  role: string;
 
   @OneToOne(()=> Login, { cascade: true })
   @JoinColumn()
