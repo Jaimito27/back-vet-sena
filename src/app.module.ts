@@ -9,6 +9,7 @@ import { PetsModule } from './pets/pets.module';
 
 import { AppointmentsModule } from './appointments/appointments.module';
 import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
 
 
 
@@ -31,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     PetsModule,
     AppointmentsModule,
     AuthModule,
+    ProfileModule,
 
 
   ],

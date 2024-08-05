@@ -32,6 +32,5 @@ export class User {
   @Column({ default: 'none' })
   cargo: string;
 
-  @OneToMany(() => Pet, (pet) => pet.owner)
-  pets: Pet[];
+
 }

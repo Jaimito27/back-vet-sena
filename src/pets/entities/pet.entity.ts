@@ -1,5 +1,6 @@
+import { Profile } from '../../profile/entities/profile.entity';
 import { Appointment } from '../../appointments/entities/appointment.entity';
-import { User } from '../../users/entities/user.entity';
+
 import {
   Column,
   Entity,
@@ -35,6 +36,6 @@ export class Pet {
   @OneToMany(()=> Appointment, appointment => appointment.pet)
   appointments: Appointment[];
 
-  @ManyToOne(() => User, (user) => user.pets)
-  owner: User;
+  @ManyToOne(() => Profile, (profile) => profile.pets)
+  owner: Profile;
 }
