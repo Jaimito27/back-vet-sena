@@ -33,6 +33,7 @@ export class LoginService {
       where: {
         username
       },
+      relations:['user']
 
     })
 
