@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PetsModule } from './pets/pets.module';
 import { EmployeeModule } from './employee/employee.module';
 
-import { LoginModule } from './login/login.module';
+
 import { AppointmentsModule } from './appointments/appointments.module';
 import { AuthModule } from './auth/auth.module';
+
 
 
 @Module({
@@ -29,7 +30,6 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     PetsModule,
     EmployeeModule,
-    LoginModule,
     AppointmentsModule,
     AuthModule,
 

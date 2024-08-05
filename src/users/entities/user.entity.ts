@@ -1,4 +1,4 @@
-import { Login } from '../../login/entities/login.entity';
+
 import { Pet } from '../../pets/entities/pet.entity';
 import {
   Column,
@@ -36,10 +36,6 @@ export class User {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   creation_date: Date;
 
-
-@OneToOne(()=> Login)
-@JoinColumn()
-login: Login;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];

@@ -4,8 +4,6 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from './entities/employee.entity';
 import { Repository } from 'typeorm';
-import { LoginService } from '../../src/login/login.service';
-import { Login } from '../../src/login/entities/login.entity';
 
 import * as bcryptjs from 'bcryptjs';
 
@@ -14,7 +12,7 @@ export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
-    private readonly loginService: LoginService,
+
   ) {}
 
   async createEmployee(employee: CreateEmployeeDto) {
@@ -42,22 +40,11 @@ export class EmployeeService {
 
     const heshedPassword = await bcryptjs.hash(employee.password, 10);
 
-    const newLogin = await this.loginService.createLogin({
-      username: employee.username,
-      password: heshedPassword,
-      role: employee.role
-    });
-
-    if (!(newLogin instanceof Login))
-      return new HttpException(
-        'Ya existe un empleado con este nombre de usuario',
-        HttpStatus.CONFLICT,
-      );
 
 
 
     const newEmployee = this.employeeRepository.create(employee);
-    newEmployee.login = newLogin;
+
     
     return await this.employeeRepository.save(newEmployee);
   }

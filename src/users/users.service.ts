@@ -9,8 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { LoginService } from '../../src/login/login.service';
-import { Login } from '../../src/login/entities/login.entity';
+
 
 import * as bcryptjs from 'bcryptjs';
 
@@ -20,7 +19,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
 
-    private readonly loginService: LoginService,
+
   ) {}
 
   async createUser(user: CreateUserDto) {
@@ -44,22 +43,12 @@ export class UsersService {
       }
     }
 
-    const heshedPassword = await bcryptjs.hash(user.password, 10);
-    const newLogin = await this.loginService.createLogin({
-      username: user.username,
-      password: heshedPassword,
-      role: 'user'
-    });
-    if (!(newLogin instanceof Login))
-      return new HttpException(
-        'Ya existe un usuario creado con ese npmbre de usuario',
-        HttpStatus.CONFLICT,
-      );
+
 
 
 
     const newUser = this.userRepository.create(user);
-    newUser.login = newLogin;
+  
 
     return await this.userRepository.save(newUser);
   }
