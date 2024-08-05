@@ -45,6 +45,7 @@ export class EmployeeService {
     const newLogin = await this.loginService.createLogin({
       username: employee.username,
       password: heshedPassword,
+      role: employee.role
     });
 
     if (!(newLogin instanceof Login))

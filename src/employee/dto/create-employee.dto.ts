@@ -55,6 +55,7 @@ export class CreateEmployeeDto {
   @IsNotEmpty()
   username: string;
 
+
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
