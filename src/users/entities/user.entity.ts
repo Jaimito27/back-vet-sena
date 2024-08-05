@@ -36,12 +36,10 @@ export class User {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   creation_date: Date;
 
-  @Column({default: 'user'})
-  role: string;
 
-  @OneToOne(() => Login, { cascade: true })
-  @JoinColumn()
-  login: Login;
+@OneToOne(()=> Login)
+@JoinColumn()
+login: Login;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];

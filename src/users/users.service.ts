@@ -48,6 +48,7 @@ export class UsersService {
     const newLogin = await this.loginService.createLogin({
       username: user.username,
       password: heshedPassword,
+      role: 'user'
     });
     if (!(newLogin instanceof Login))
       return new HttpException(

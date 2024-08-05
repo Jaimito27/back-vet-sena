@@ -24,15 +24,16 @@ export class LoginService {
 
     }
 
-  findAll() {
-    return `This action returns all login`;
+  async findAll() {
+    return await this.loginRepository.find();
   }
 
   async getUserUsername(username: string) {
     const userFound = await this.loginRepository.findOne({
       where: {
         username
-      }
+      },
+
     })
 
     if (!userFound) {
