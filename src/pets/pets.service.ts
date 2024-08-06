@@ -11,8 +11,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
-import { User } from '.././users/entities/user.entity';
+
 import { UsersService } from '../../src/users/users.service';
+import { User } from '../../src/users/entities/user.entity';
 
 @Injectable()
 export class PetsService {
@@ -27,10 +28,11 @@ export class PetsService {
   async createPet(pet: CreatePetDto) {
 
 
+
     const newPet = this.petsRepository.create(pet);
 
     if (pet.ident_document) {
-     const userFound = await this.usersService.getOnlyUser(pet.ident_document);
+     const userFound = await this.usersService.getUserForIdentDocument(pet.ident_document);
 
     if(userFound instanceof User ){
       newPet.owner = userFound;
@@ -41,7 +43,7 @@ export class PetsService {
     }
     return this.petsRepository.save(newPet)
 
-  }
+}
 
   async getPets() {
     return await this.petsRepository.find({ relations: ['owner', 'appointments'] });

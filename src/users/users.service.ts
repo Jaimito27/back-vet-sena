@@ -1,60 +1,63 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
-
 import * as bcryptjs from 'bcryptjs';
-
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-
-
   ) {}
 
   async createUser(user: CreateUserDto) {
     const userFound = await this.userRepository.findOne({
-      where: [{ ident_document: user.ident_document }, { email: user.email }],
+      where: [
+        { ident_document: user.ident_document },
+        { username: user.username },
+        { email: user.email },
+      ],
     });
 
     if (userFound) {
       if (userFound.ident_document === user.ident_document) {
         return new HttpException(
-          'Ya existe un usuario con esté numero de identificación',
+          'Ya existe un usuario con ese número de identificación',
           HttpStatus.CONFLICT,
         );
       }
-
+  
+      if (userFound.username === user.username) {
+        return new HttpException(
+          'Ya existe un usuario con ese nombre de usuario',
+          HttpStatus.CONFLICT,
+        );
+      }
+  
       if (userFound.email === user.email) {
         return new HttpException(
-          'Ya exuste un usuario con este correo',
+          'Ya existe un usuario con ese correo electrónico',
           HttpStatus.CONFLICT,
         );
       }
     }
 
+    // Hashear la contraseña antes de guardarla
+  const hashedPassword = await bcryptjs.hash(user.password, 10);
 
-
-
-
-    const newUser = this.userRepository.create(user);
-  
-
+  // Crear el nuevo usuario
+  const newUser = this.userRepository.create({
+    ...user,
+    password: hashedPassword,
+  });
     return await this.userRepository.save(newUser);
   }
 
   async getUsers() {
-    return await this.userRepository.find({ relations: ['pets', 'login'] });
+    return await this.userRepository.find({ relations: ['pets'] });
   }
 
   async getOnlyUser(id: string) {
@@ -62,7 +65,7 @@ export class UsersService {
       where: {
         id,
       },
-      relations: ['pets', 'login'],
+      relations: ['pets'],
     });
 
     if (!userFound) {
@@ -72,8 +75,19 @@ export class UsersService {
     return userFound;
   }
 
+  async getUserForIdentDocument(ident_document: string){
+    const userFound = await this.userRepository.findOne({
+      where: {
+        ident_document
+      }
+    });
 
+    if (!userFound) {
+      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+    }
 
+    return userFound;
+  }
 
   async updateUser(id: string, user: UpdateUserDto) {
     const userFound = await this.userRepository.findOne({

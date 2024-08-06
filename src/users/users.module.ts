@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 
 
 
+
 @Module({
   imports: [TypeOrmModule.forFeature([User])], //Defino la entidad que se usa en el módulo
   controllers: [UsersController],

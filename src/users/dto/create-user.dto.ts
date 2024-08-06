@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -11,9 +12,11 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   doc_type: string;
+  
   @MinLength(4)
   @IsNotEmpty()
   ident_document: string;
+
   @IsString()
   @IsNotEmpty()
   names: string;
@@ -30,6 +33,9 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+  @IsString()
+  @IsOptional()
+  cargo?: string;
 
   @IsString()
   @IsNotEmpty()
