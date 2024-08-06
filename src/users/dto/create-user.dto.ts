@@ -42,6 +42,10 @@ export class CreateUserDto {
   role?: string;
 
   @IsString()
+  @IsOptional()
+  state?: string;
+
+  @IsString()
   @IsNotEmpty()
   @MinLength(6)
   @Transform(({ value }) => value.trim())

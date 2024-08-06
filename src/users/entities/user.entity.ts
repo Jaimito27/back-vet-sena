@@ -50,7 +50,8 @@ export class User {
   @Column({ default: 'none' })
   occupation: string;
 
-
+  @Column({ default: 'acitve' })
+  state: string;
 
   @OneToMany(() => Pet, (pet) => pet.user, {cascade: true})
   pets: Pet[];

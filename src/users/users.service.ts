@@ -57,7 +57,11 @@ export class UsersService {
   }
 
   async getUsers() {
-    return await this.userRepository.find({ where: {role: ('user')}, relations: ['pets','pets.appointments'] });
+    return await this.userRepository.find({ where: {role: 'user', state: 'active'}, relations: ['pets','pets.appointments'] });
+  }
+
+  async getUsersLocked() {
+    return await this.userRepository.find({ where: {role: 'user', state: 'locked'}, relations: ['pets','pets.appointments'] });
   }
 
   async getOnlyUser(id: string) {
@@ -121,12 +125,17 @@ export class UsersService {
   }
 
   async removeUser(id: string) {
-    const result = await this.userRepository.delete({ id });
 
-    if (result.affected === 0) {
-      return new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
-    }
+    const userFound = await this.userRepository.findOne({
+      where: { id}
+    })
 
-    return result;
+    if(!userFound) return new HttpException('Usuaurio no existe', HttpStatus.NOT_FOUND)
+
+    
+      userFound.state = 'locked'
+
+
+    return await this.userRepository.save(userFound);
   }
 }

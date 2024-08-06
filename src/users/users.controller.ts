@@ -49,7 +49,7 @@ export class UsersController {
     return await this.usersService.updateUser(id, user);
   }
 
-  @Delete(':id')
+  @Patch(':id')
   removeUser(@Param('id') id: string) {
     return this.usersService.removeUser(id);
   }
