@@ -16,26 +16,32 @@ export class AuthService {
   ) {}
 
   async login({ username, password }: AuthDto) {
-    // const userFound = await this.loginService.getUserUsername(username);
+    const userFound = await this.userService.getUserForUsername(username);
 
-    // if (!userFound || userFound instanceof HttpException)
-    //   return new HttpException('credenciales invalidas', HttpStatus.NOT_FOUND);
+    if (!userFound){
+      return new HttpException('usuario invalidas', HttpStatus.NOT_FOUND);
+    }else if(userFound instanceof HttpException){
+      return userFound
+    }
 
-    // const isPasswordValid = await bcryptjs.compare(
-    //   password,
-    //   userFound.password,
-    // );
+    const isPasswordValid = await bcryptjs.compare(
+      password,
+      userFound.password,
+    );
+
+    if(!isPasswordValid){
+      return new HttpException('contraseña invalida', HttpStatus.NOT_FOUND);
+    }
 
 
+    const patyload = { username: userFound.username,  role: userFound.role};
+    const token = await this.jwtService.signAsync(patyload);
 
-    // const patyload = { username: userFound.username,  role: userFound.role};
-    // const token = await this.jwtService.signAsync(patyload);
-
-    // return {
-    //   token,
-    //   username: userFound.username,
-    //   role: userFound.role
+    return {
+      token,
+      username: userFound.username,
+      role: userFound.role
    
-    // };
+    };
   }
 }

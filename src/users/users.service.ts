@@ -89,6 +89,18 @@ export class UsersService {
     return userFound;
   }
 
+  async getUserForUsername(username: string){
+    const userFound = await this.userRepository.findOne({
+      where: {username}
+    });
+
+    if(!userFound){
+      return new HttpException('Usiario no encontrado', HttpStatus.CONFLICT)
+    }
+
+    return userFound
+  }
+
   async updateUser(id: string, user: UpdateUserDto) {
     const userFound = await this.userRepository.findOne({
       where: {
