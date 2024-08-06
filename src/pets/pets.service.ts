@@ -35,7 +35,7 @@ export class PetsService {
      const userFound = await this.usersService.getUserForIdentDocument(pet.ident_document);
 
     if(userFound instanceof User ){
-      newPet.owner = userFound;
+      newPet.user = userFound;
     }else{
       return new HttpException('No existe usuario', HttpStatus.NOT_FOUND);
     }
@@ -46,14 +46,14 @@ export class PetsService {
 }
 
   async getPets() {
-    return await this.petsRepository.find({ relations: ['owner', 'appointments'] });
+    return await this.petsRepository.find({ relations: ['user', 'appointments'] });
   }
 
   async findOne(id: string) {
     return await this.petsRepository.findOne({
       where: {
         id
-      }, relations: ['appointments', 'owner']
+      }, relations: ['appointments', 'user']
     });
   }
 

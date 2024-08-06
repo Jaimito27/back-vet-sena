@@ -34,9 +34,9 @@ export class Pet {
   @Column({ nullable: false })
   gender: string;
 
-  @OneToMany(()=> Appointment, appointment => appointment.pet)
+  @OneToMany(()=> Appointment, appointment => appointment.pet )
   appointments: Appointment[];
 
   @ManyToOne(() => User, (user) => user.pets)
-  owner: User;
+  user: User;
 }

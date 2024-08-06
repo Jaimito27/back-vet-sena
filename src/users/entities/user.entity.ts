@@ -52,6 +52,6 @@ export class User {
 
 
 
-  @OneToMany(() => Pet, (pet) => pet.owner)
+  @OneToMany(() => Pet, (pet) => pet.user, {cascade: true})
   pets: Pet[];
 }
