@@ -27,13 +27,19 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
+  @Get('employee')
+  getEmployee(): Promise<User[]>{
+    return this.usersService.getEmployee()
+  }
+
   @Get(':id')
   getOnlyUser(
     @Param('id') id: string,
   ) {
-
     return this.usersService.getOnlyUser(id);
   }
+
+ 
 
   @Patch(':id')
   async updateUser(

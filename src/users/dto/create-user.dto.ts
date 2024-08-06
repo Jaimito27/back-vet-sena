@@ -35,7 +35,11 @@ export class CreateUserDto {
   username: string;
   @IsString()
   @IsOptional()
-  cargo?: string;
+  occupation?: string;
+
+  @IsString()
+  @IsOptional()
+  role?: string;
 
   @IsString()
   @IsNotEmpty()

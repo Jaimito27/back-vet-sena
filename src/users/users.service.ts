@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 
 import * as bcryptjs from 'bcryptjs';
 
@@ -99,6 +99,10 @@ export class UsersService {
     }
 
     return userFound
+  }
+
+  async getEmployee(){
+    return await this.userRepository.find({where: {occupation: Not('none')}})
   }
 
   async updateUser(id: string, user: UpdateUserDto) {

@@ -48,7 +48,7 @@ export class User {
   role: string;
 
   @Column({ default: 'none' })
-  cargo: string;
+  occupation: string;
 
 
 
