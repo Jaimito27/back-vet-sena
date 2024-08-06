@@ -28,7 +28,7 @@ export class Pet {
   @Column({ nullable: false })
   breed: string;
 
-  @Column({ nullable: false, type: 'boolean', default: false })
+  @Column({ nullable: false, type: 'bit', default: false })
   dangerous: boolean;
 
   @Column({ nullable: false })

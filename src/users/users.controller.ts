@@ -27,30 +27,28 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
+  @Get('locked')
+  getUsersLocked(): Promise<User[]>{
+    return this.usersService.getUsersLocked();
+  }
+
   @Get('employee')
-  getEmployee(): Promise<User[]>{
-    return this.usersService.getEmployee()
+  getEmployee(): Promise<User[]> {
+    return this.usersService.getEmployee();
   }
 
   @Get(':id')
-  getOnlyUser(
-    @Param('id') id: string,
-  ) {
+  getOnlyUser(@Param('id') id: string) {
     return this.usersService.getOnlyUser(id);
   }
 
- 
-
   @Patch(':id')
-  async updateUser(
-    @Param('id') id: string,
-    @Body() user: UpdateUserDto,
-  ) {
+  async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }
 
   @Patch(':id')
-  removeUser(@Param('id') id: string) {
-    return this.usersService.removeUser(id);
+  blockUser(@Param('id') id: string) {
+    return this.usersService.blockUser(id);
   }
 }

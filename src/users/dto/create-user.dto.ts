@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsNumber,
@@ -43,7 +44,8 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  state?: string;
+  @IsBoolean()
+  state?: boolean;
 
   @IsString()
   @IsNotEmpty()
