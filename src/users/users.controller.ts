@@ -42,13 +42,15 @@ export class UsersController {
     return this.usersService.getOnlyUser(id);
   }
 
+  @Patch('delete/:id')
+  blockUser(@Param('id') id: string) {
+    return this.usersService.blockUser(id);
+  }
+
   @Patch(':id')
   async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }
 
-  @Patch(':id')
-  blockUser(@Param('id') id: string) {
-    return this.usersService.blockUser(id);
-  }
+
 }
