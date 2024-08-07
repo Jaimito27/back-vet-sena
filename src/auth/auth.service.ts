@@ -33,6 +33,7 @@ export class AuthService {
       return new HttpException('contraseña invalida', HttpStatus.NOT_FOUND);
     }
 
+    if(userFound.state === false) return new HttpException('El usuario al cual intenta acceder, está bloqueado', HttpStatus.UNAUTHORIZED)
 
     const patyload = { username: userFound.username,  role: userFound.role};
     const token = await this.jwtService.signAsync(patyload);
