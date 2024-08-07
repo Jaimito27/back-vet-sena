@@ -69,7 +69,7 @@ export class UsersService {
   async getOnlyUser(id: string) {
     const userFound = await this.userRepository.findOne({
       where: {
-        id,
+        id, state: true
       },
       relations: ['pets', 'pets.appointments'],
     });
@@ -78,7 +78,8 @@ export class UsersService {
       return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
     }
 
-    return userFound;
+
+return userFound.state;
   }
 
   async getUserForIdentDocument(ident_document: string) {

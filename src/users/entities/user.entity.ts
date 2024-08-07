@@ -50,7 +50,7 @@ export class User {
   @Column({ default: 'none' })
   occupation: string;
 
-  @Column({ type: 'bit', default: true })
+  @Column({ type: 'boolean', default: true })
   state: boolean;
 
   @OneToMany(() => Pet, (pet) => pet.user, {cascade: true})
