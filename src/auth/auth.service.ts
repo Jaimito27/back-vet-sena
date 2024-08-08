@@ -5,23 +5,20 @@ import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../../src/users/users.service';
 
-
 @Injectable()
 export class AuthService {
   constructor(
-   
     private readonly jwtService: JwtService,
     private readonly userService: UsersService,
-
   ) {}
 
   async login({ username, password }: AuthDto) {
     const userFound = await this.userService.getUserForUsername(username);
 
-    if (!userFound){
-      return new HttpException('usuario invalidas', HttpStatus.NOT_FOUND);
-    }else if(userFound instanceof HttpException){
-      return userFound
+    if (!userFound) {
+      return new HttpException('Credenciales inválidas', HttpStatus.NOT_FOUND);
+    } else if (userFound instanceof HttpException) {
+      return userFound;
     }
 
     const isPasswordValid = await bcryptjs.compare(
@@ -29,20 +26,24 @@ export class AuthService {
       userFound.password,
     );
 
-    if(!isPasswordValid){
-      return new HttpException('contraseña invalida', HttpStatus.NOT_FOUND);
+    if (!isPasswordValid) {
+      return new HttpException('Contraseña inválida', HttpStatus.NOT_FOUND);
     }
 
-    if(userFound.state === false) return new HttpException('El usuario al cual intenta acceder, está bloqueado', HttpStatus.UNAUTHORIZED)
+    if (userFound.state === false) {
+      return new HttpException(
+        'El usuario al cual intenta acceder, está bloqueado',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
 
-    const patyload = { username: userFound.username,  role: userFound.role};
+    const patyload = { username: userFound.username, role: userFound.role };
     const token = await this.jwtService.signAsync(patyload);
 
     return {
       token,
       username: userFound.username,
-      role: userFound.role
-   
+      role: userFound.role,
     };
   }
 }

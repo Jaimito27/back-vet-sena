@@ -12,6 +12,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Auth } from '../../src/auth/decorators/auth.decorator';
+import { Role } from '../../src/auth/enums/rol.enum';
 
 @Controller('users')
 export class UsersController {
@@ -23,26 +25,31 @@ export class UsersController {
   }
 
   @Get()
+  @Auth(Role.ADMIN)
   getUsers(): Promise<User[]> {
     return this.usersService.getUsers();
   }
 
   @Get('locked')
-  getUsersLocked(): Promise<User[]>{
+  @Auth(Role.ADMIN)
+  getUsersLocked(): Promise<User[]> {
     return this.usersService.getUsersLocked();
   }
 
   @Get('employee')
+  @Auth(Role.ADMIN)
   getEmployee(): Promise<User[]> {
     return this.usersService.getEmployee();
   }
 
   @Get(':id')
+  @Auth(Role.ADMIN)
   getOnlyUser(@Param('id') id: string) {
     return this.usersService.getOnlyUser(id);
   }
 
   @Patch('delete/:id')
+  @Auth(Role.ADMIN)
   blockUser(@Param('id') id: string) {
     return this.usersService.blockUser(id);
   }
@@ -51,6 +58,4 @@ export class UsersController {
   async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }
-
-
 }
