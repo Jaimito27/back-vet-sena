@@ -55,6 +55,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @Auth(Role.ADMIN, Role.USER)
   async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }
