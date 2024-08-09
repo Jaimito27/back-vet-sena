@@ -49,13 +49,20 @@ export class UsersController {
   }
 
   @Patch('delete/:id')
-  @Auth(Role.ADMIN)
+@Auth(Role.ADMIN)
   blockUser(@Param('id') id: string) {
     return this.usersService.blockUser(id);
   }
 
+
+  @Patch('unlock/:id')
+  @Auth(Role.ADMIN)
+  unlockUser(@Param('id') id: string){
+    return this.usersService.unlockUser(id)
+  }
+
   @Patch(':id')
-  @Auth(Role.ADMIN, Role.USER)
+  @Auth(Role.ADMIN)
   async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }

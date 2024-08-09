@@ -61,15 +61,13 @@ export class UsersService {
       where: { role: 'user', state: true },
       relations: ['pets', 'pets.appointments'],
     });
-
-    }
-
- 
+  }
 
   async getOnlyUser(id: string) {
     const userFound = await this.userRepository.findOne({
       where: {
-        id, state: true
+        id,
+        state: true,
       },
       relations: ['pets', 'pets.appointments'],
     });
@@ -78,8 +76,7 @@ export class UsersService {
       return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
     }
 
-
-return userFound.state;
+    return userFound.state;
   }
 
   async getUserForIdentDocument(ident_document: string) {
@@ -110,7 +107,7 @@ return userFound.state;
 
   async getUsersLocked() {
     return await this.userRepository.find({
-      where: { role: 'user', state: false},
+      where: { role: 'user', state: false },
       relations: ['pets', 'pets.appointments'],
     });
   }
@@ -121,12 +118,11 @@ return userFound.state;
     });
   }
 
-  async getEmployeeLocked(){
+  async getEmployeeLocked() {
     return await this.userRepository.find({
       where: { occupation: Not('none'), state: false },
-    })
+    });
   }
-
 
   async updateUser(id: string, user: UpdateUserDto) {
     const userFound = await this.userRepository.findOne({
@@ -152,6 +148,20 @@ return userFound.state;
       return new HttpException('Usuaurio no existe', HttpStatus.NOT_FOUND);
 
     userFound.state = false;
+
+    return await this.userRepository.save(userFound);
+  }
+
+  async unlockUser(id: string) {
+    const userFound = await this.userRepository.findOne({
+      where: { id },
+    });
+
+    if (userFound.state === true) {
+      return new HttpException('Usuairo está activo', HttpStatus.NOT_FOUND);
+    } else {
+      userFound.state = true;
+    }
 
     return await this.userRepository.save(userFound);
   }
