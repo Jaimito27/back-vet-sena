@@ -6,9 +6,9 @@ import { Roles } from './roles.decorator';
 import { AuthGuard } from '../guard/auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 
-export function Auth(role: Role) {// se usa en tipo tupla, para poder admitir en el decorador más de un rol
+export function Auth(...roles: Role[]) {//la funcion recibe como parametro el rol el cual tiene permiso para ejecutar el metodo
   return applyDecorators(
-    Roles(role), //recibe el role, que desde le decorador es pasado com parametro
+    Roles(...roles), //recibe el role, que desde le decorador es pasado com parametro
     UseGuards(AuthGuard, RolesGuard), //Ingreso los guards que se usan para validar
   );
 }
