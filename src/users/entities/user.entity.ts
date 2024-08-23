@@ -47,8 +47,6 @@ export class User {
   @Column({ default: 'user' })
   role: string;
 
-  @Column({ default: 'none' })
-  occupation: string;
 
   @Column({ type: 'boolean', default: true })
   state: boolean;

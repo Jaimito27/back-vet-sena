@@ -3,17 +3,19 @@ import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 
+
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
+
   createPet(@Body() pet: CreatePetDto) {
     return this.petsService.createPet(pet);
   }
 
   @Get()
-  async getPets(id) {
+  async getPets() {
     return await this.petsService.getPets();
   }
 

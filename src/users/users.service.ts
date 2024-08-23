@@ -114,13 +114,13 @@ export class UsersService {
 
   async getEmployee() {
     return await this.userRepository.find({
-      where: { occupation: Not('none'), state: true },
+      where: { role: Not('user'), state: true },
     });
   }
 
   async getEmployeeLocked() {
     return await this.userRepository.find({
-      where: { occupation: Not('none'), state: false },
+      where: { role: Not('user'), state: false },
     });
   }
 
