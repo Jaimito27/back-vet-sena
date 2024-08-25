@@ -6,10 +6,10 @@ export class Appointment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({nullable: false})
   date_appointment: Date;
 
-  @Column({ nullable: false })
+  @Column({nullable: true})
   type_procedure: string;
 
   @ManyToOne(() => Pet, (pet) => pet.appointments)

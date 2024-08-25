@@ -39,11 +39,11 @@ export class AppointmentsService {
     return `This action returns a #${id} appointment`;
   }
 
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
+  async rescheduleAppointment(id: string, updateAppointment: UpdateAppointmentDto) {
+    return await this.appointmentRepository.update(id, updateAppointment);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} appointment`;
   }
 }
