@@ -16,9 +16,15 @@ export class AppointmentsController {
   }
 
   @Get()
-  @Auth(Role.ADMIN, Role.USER, Role.MEDICAL)
+  @Auth(Role.ADMIN)
   findAll() {
     return this.appointmentsService.getAppointments();
+  }
+
+  @Get('active')
+  @Auth(Role.ADMIN, Role.USER, Role.MEDICAL)
+  activeAppointments(){
+    return this.appointmentsService.activeAppointments();
   }
 
   @Get(':id')
@@ -32,6 +38,13 @@ export class AppointmentsController {
   rescheduleAppointment(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
     return this.appointmentsService.rescheduleAppointment(id, updateAppointmentDto);
   }
+
+  @Patch('cancel/:id')
+  @Auth(Role.ADMIN, Role.USER)
+  cancelAppointment(@Param('id') id:string){
+    return this.appointmentsService.cancelAppointment(id)
+  }
+
 
   @Delete(':id')
   @Auth(Role.ADMIN, Role.USER, Role.MEDICAL)

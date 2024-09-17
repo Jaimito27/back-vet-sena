@@ -12,6 +12,9 @@ export class Appointment {
   @Column({nullable: true})
   type_procedure: string;
 
+  @Column({type: 'boolean', default: true})
+  state: boolean;
+
   @ManyToOne(() => Pet, (pet) => pet.appointments)
   pet: Pet;
 }

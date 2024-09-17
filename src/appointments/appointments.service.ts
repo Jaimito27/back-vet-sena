@@ -32,15 +32,35 @@ export class AppointmentsService {
   }
 
   async getAppointments() {
-    return await this.appointmentRepository.find({ relations: ['pet'] });
+    return await this.appointmentRepository.find({ relations: ['pet', 'pet.user'] });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} appointment`;
   }
 
-  async rescheduleAppointment(id: string, updateAppointment: UpdateAppointmentDto) {
+  async rescheduleAppointment(
+    id: string,
+    updateAppointment: UpdateAppointmentDto,
+  ) {
     return await this.appointmentRepository.update(id, updateAppointment);
+  }
+
+  async cancelAppointment(id: string) {
+    const appointmentFound = await this.appointmentRepository.findOne({
+      where: { id },
+    });
+
+    appointmentFound.state = false;
+
+    return await this.appointmentRepository.save(appointmentFound);
+  }
+
+  async activeAppointments() {
+    return await this.appointmentRepository.find({
+      where: { state: true },
+      relations: ['pet', 'pet.user'],
+    });
   }
 
   remove(id: string) {
