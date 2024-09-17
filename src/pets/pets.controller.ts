@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { Auth } from '../../src/auth/decorators/auth.decorator';
 import { Role } from '../../src/auth/enums/rol.enum';
+import { Pet } from './entities/pet.entity';
 
 @Controller('pets')
 export class PetsController {
@@ -20,6 +31,12 @@ export class PetsController {
   async getPets() {
     return await this.petsService.getPets();
   }
+  
+  @Get('locked')
+  @Auth(Role.ADMIN, Role.MEDICAL)
+  getPetsLocked(){
+    return this.petsService.getPetsLocked();
+  }
 
   @Get(':id')
   @Auth(Role.ADMIN, Role.MEDICAL)
@@ -27,6 +44,8 @@ export class PetsController {
     return this.petsService.findOne(id);
   }
 
+ 
+ 
   @Patch(':id')
   @Auth(Role.ADMIN, Role.MEDICAL, Role.USER)
   update(@Param('id') id: string, @Body() pet: UpdatePetDto) {
@@ -35,17 +54,15 @@ export class PetsController {
 
   @Patch('delete/:id')
   @Auth(Role.ADMIN, Role.MEDICAL, Role.USER)
-  blockPet(@Param('id') id: string){
-    return this.petsService.blockPet(id)
+  blockPet(@Param('id') id: string) {
+    return this.petsService.blockPet(id);
   }
 
   @Patch('unlock/:id')
   @Auth(Role.ADMIN, Role.MEDICAL)
-  unlockPet(@Param('id') id: string){
+  unlockPet(@Param('id') id: string) {
     return this.petsService.unlockPet(id);
   }
-
-  
 
   @Delete(':id')
   @Auth(Role.ADMIN, Role.MEDICAL, Role.USER)

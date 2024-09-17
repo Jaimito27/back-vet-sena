@@ -36,6 +36,8 @@ export class UsersController {
     return this.usersService.getUsersLocked();
   }
 
+
+
   @Get('employee')
   @Auth(Role.ADMIN)
   getEmployee(): Promise<User[]> {
@@ -67,6 +69,6 @@ export class UsersController {
     return await this.usersService.updateUser(id, user);
   }
 
-  
+
 
 }

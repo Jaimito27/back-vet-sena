@@ -48,6 +48,13 @@ export class PetsService {
     });
   }
 
+  async getPetsLocked() {
+    return await this.petsRepository.find({
+      where: { state: false },
+      relations: ['user', 'appointments'],
+    });
+  }
+
   async findOne(id: string) {
     return await this.petsRepository.findOne({
       where: {
@@ -86,9 +93,6 @@ export class PetsService {
     return await this.petsRepository.save(petFound);
   }
 
-
-
-  
   async updatePet(id: string, pet: UpdatePetDto) {
     const petFound = await this.petsRepository.findOneBy({ id });
 
