@@ -5,7 +5,6 @@ import { User } from '../../users/entities/user.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -33,6 +32,9 @@ export class Pet {
 
   @Column({ nullable: false })
   gender: string;
+
+  @Column({type: 'boolean', default: true})
+  state: boolean;
 
   @OneToMany(()=> Appointment, appointment => appointment.pet )
   appointments: Appointment[];

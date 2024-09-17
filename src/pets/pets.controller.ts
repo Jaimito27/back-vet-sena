@@ -33,6 +33,20 @@ export class PetsController {
     return this.petsService.updatePet(id, pet);
   }
 
+  @Patch('delete/:id')
+  @Auth(Role.ADMIN, Role.MEDICAL, Role.USER)
+  blockPet(@Param('id') id: string){
+    return this.petsService.blockPet(id)
+  }
+
+  @Patch('unlock/:id')
+  @Auth(Role.ADMIN, Role.MEDICAL)
+  unlockPet(@Param('id') id: string){
+    return this.petsService.unlockPet(id);
+  }
+
+  
+
   @Delete(':id')
   @Auth(Role.ADMIN, Role.MEDICAL, Role.USER)
   remove(@Param('id') id: string) {

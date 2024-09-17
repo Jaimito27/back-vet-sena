@@ -8,7 +8,6 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
-
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
 
@@ -26,54 +25,83 @@ export class PetsService {
   ) {}
 
   async createPet(pet: CreatePetDto) {
-
-
-
     const newPet = this.petsRepository.create(pet);
 
     if (pet.ident_document) {
-     const userFound = await this.usersService.getUserForIdentDocument(pet.ident_document);
+      const userFound = await this.usersService.getUserForIdentDocument(
+        pet.ident_document,
+      );
 
-    if(userFound instanceof User ){
-      newPet.user = userFound;
-    }else{
-      return new HttpException('No existe usuario', HttpStatus.NOT_FOUND);
+      if (userFound instanceof User) {
+        newPet.user = userFound;
+      } else {
+        return new HttpException('No existe usuario', HttpStatus.NOT_FOUND);
+      }
     }
-
-    }
-    return this.petsRepository.save(newPet)
-
-}
+    return this.petsRepository.save(newPet);
+  }
 
   async getPets() {
-    return await this.petsRepository.find({ relations: ['user', 'appointments'] });
+    return await this.petsRepository.find({
+      relations: ['user', 'appointments'],
+      where: { state: true },
+    });
   }
 
   async findOne(id: string) {
     return await this.petsRepository.findOne({
       where: {
-        id
-      }, relations: ['appointments', 'user']
+        id,
+        state: true,
+      },
+      relations: ['appointments', 'user'],
     });
   }
 
+  async blockPet(id: string) {
+    const petFound = await this.petsRepository.findOne({
+      where: { id },
+    });
 
-  
-
-  async updatePet(id: string, pet: UpdatePetDto) {
-    const petFound = await this.petsRepository.findOneBy({id})
-
-    if(!petFound){
-      return new HttpException('Mascota no existe', HttpStatus.NOT_FOUND)
+    if (!petFound) {
+      return new HttpException('Mascota no existe', HttpStatus.NOT_FOUND);
+    } else {
+      petFound.state = false;
     }
 
-    const updatePet = Object.assign(petFound, pet) 
+    return await this.petsRepository.save(petFound);
+  }
+
+  async unlockPet(id: string) {
+    const petFound = await this.petsRepository.findOne({
+      where: { id },
+    });
+
+    if (!petFound) {
+      return new HttpException('Mascota no existe', HttpStatus.NOT_FOUND);
+    } else {
+      petFound.state = true;
+    }
+
+    return await this.petsRepository.save(petFound);
+  }
+
+
+
   
-    return await this.petsRepository.save(updatePet)
-  
+  async updatePet(id: string, pet: UpdatePetDto) {
+    const petFound = await this.petsRepository.findOneBy({ id });
+
+    if (!petFound) {
+      return new HttpException('Mascota no existe', HttpStatus.NOT_FOUND);
+    }
+
+    const updatePet = Object.assign(petFound, pet);
+
+    return await this.petsRepository.save(updatePet);
   }
 
   remove(id: string) {
-    return this.petsRepository.delete({id});
+    return this.petsRepository.delete({ id });
   }
 }
