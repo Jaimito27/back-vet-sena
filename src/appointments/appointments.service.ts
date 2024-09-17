@@ -35,9 +35,7 @@ export class AppointmentsService {
     return await this.appointmentRepository.find({ relations: ['pet', 'pet.user'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
-  }
+
 
   async rescheduleAppointment(
     id: string,
@@ -63,7 +61,5 @@ export class AppointmentsService {
     });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} appointment`;
-  }
+
 }

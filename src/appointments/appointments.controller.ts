@@ -27,12 +27,6 @@ export class AppointmentsController {
     return this.appointmentsService.activeAppointments();
   }
 
-  @Get(':id')
-  @Auth(Role.ADMIN, Role.MEDICAL)
-  findOne(@Param('id') id: string) {
-    return this.appointmentsService.findOne(+id);
-  }
-
   @Patch(':id')
   @Auth(Role.ADMIN, Role.USER)
   rescheduleAppointment(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
@@ -46,9 +40,5 @@ export class AppointmentsController {
   }
 
 
-  @Delete(':id')
-  @Auth(Role.ADMIN, Role.USER, Role.MEDICAL)
-  remove(@Param('id') id: string) {
-    return this.appointmentsService.remove(id);
-  }
+
 }
