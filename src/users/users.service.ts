@@ -56,14 +56,10 @@ export class UsersService {
 
     await this.userRepository.save(newUser);
 
-    if(newUser){
-      return new HttpException(
-        'Usuario creado exitosamente',
-        HttpStatus.CREATED,
-      );
-    }
-    
-    return newUser;
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: 'Uusario creado con exito',
+    };
   }
 
   async getUsers() {
@@ -121,8 +117,6 @@ export class UsersService {
       relations: ['pets', 'pets.appointments'],
     });
   }
-
-
 
   async getEmployee() {
     return await this.userRepository.find({
