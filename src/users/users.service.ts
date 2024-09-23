@@ -53,7 +53,17 @@ export class UsersService {
       ...user,
       password: hashedPassword,
     });
-    return await this.userRepository.save(newUser);
+
+    await this.userRepository.save(newUser);
+
+    if(newUser){
+      return new HttpException(
+        'Usuario creado exitosamente',
+        HttpStatus.CREATED,
+      );
+    }
+    
+    return newUser;
   }
 
   async getUsers() {
