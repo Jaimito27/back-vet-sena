@@ -42,7 +42,16 @@ export class AuthService {
 
     return {
       token,
-      username: userFound.username,
+
+      doc_type: userFound.doc_type,
+      ident_document: userFound.ident_document,
+      names: userFound.names,
+      last_name: userFound.last_name,
+      phone: userFound.phone,
+
+      email: userFound.email,
+
+      creation_date: userFound.creation_date,
       role: userFound.role,
     };
   }

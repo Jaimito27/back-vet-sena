@@ -31,17 +31,21 @@ export class UsersController {
   }
 
   @Get('locked')
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   getUsersLocked(): Promise<User[]> {
     return this.usersService.getUsersLocked();
   }
 
-
-
   @Get('employee')
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   getEmployee(): Promise<User[]> {
     return this.usersService.getEmployee();
+  }
+
+  @Get('employee/locked')
+  @Auth(Role.ADMIN, Role.USER)
+  getEmployeeLocked(): Promise<User[]>{
+    return this.usersService.getEmployeeLocked();
   }
 
   @Get(':id')
@@ -51,16 +55,15 @@ export class UsersController {
   }
 
   @Patch('delete/:id')
-@Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.USER)
   blockUser(@Param('id') id: string) {
     return this.usersService.blockUser(id);
   }
 
-
   @Patch('unlock/:id')
-  @Auth(Role.ADMIN)
-  unlockUser(@Param('id') id: string){
-    return this.usersService.unlockUser(id)
+  @Auth(Role.ADMIN, Role.USER)
+  unlockUser(@Param('id') id: string) {
+    return this.usersService.unlockUser(id);
   }
 
   @Patch(':id')
@@ -68,7 +71,4 @@ export class UsersController {
   async updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
     return await this.usersService.updateUser(id, user);
   }
-
-
-
 }
