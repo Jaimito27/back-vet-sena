@@ -1,7 +1,8 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
+import { Transform } from 'class-transformer';
 
-export class UpdateUserDto  {
+export class UpdateUserDto {
   @IsString()
   @IsOptional()
   doc_type?: string;
@@ -20,5 +21,28 @@ export class UpdateUserDto  {
   @IsString()
   @IsOptional()
   email?: string;
+
+
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+  @IsString()
+  @IsOptional()
+  occupation?: string;
+
+  @IsString()
+  @IsOptional()
+  role?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsBoolean()
+  state?: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6)
+  @Transform(({ value }) => value.trim())
+  password: string;
 
 }
